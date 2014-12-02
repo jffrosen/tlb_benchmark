@@ -51,7 +51,8 @@ void randProbe(char *data, unsigned long long size, unsigned long long nProbes, 
 */
 int main(int argc, char **argv) {
   //unsigned long long dataSize = MB << 10;
-  unsigned long long dataSize = MB << 0;
+  unsigned long long dataSize = MB << 10;
+  dataSize *= 4;
 
   AnalysisType a = READS_ONLY;
 
@@ -69,9 +70,10 @@ int main(int argc, char **argv) {
     dataSize = MB * atoi(argv[2]);   
   }
 
-  cout << (dataSize / 1024) << "kB allocated" << endl;
+  cout << (dataSize >> 20) << "MB allocated" << endl;
 
   char *data = allocMem(dataSize);
+  memset(data, 1, sizeof(data));
   assert(data);
   randProbe(data, dataSize, 500000000, a);
 
